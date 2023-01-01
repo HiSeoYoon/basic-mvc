@@ -1,6 +1,8 @@
 package com.sy.basicmvc.controller;
 
 import com.sy.basicmvc.model.HomeInfo;
+import com.sy.basicmvc.service.HomeServiceI;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +15,16 @@ import java.util.HashMap;
 @RequestMapping("/home")
 public class HomeController {
 
+    @Autowired
+    private HomeServiceI homeServiceI;
+
     @ResponseBody
     @GetMapping()
     public ResponseEntity<?> homeReq(@RequestBody HomeInfo info) {
 
         System.out.println("ECHO: " + info.getId() + ", " + info.getName());
 
-        HashMap<String, Object> reqMap = new HashMap<>();
-        reqMap.put("resCode", 0);
-        reqMap.put("resMsg", "OK");
+        HashMap<String, Object> reqMap = homeServiceI.doHomeService(info);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=UTF-8");
