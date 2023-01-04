@@ -19,8 +19,22 @@ public class HomeController {
     private HomeServiceI homeServiceI;
 
     @ResponseBody
+    @PostMapping()
+    public ResponseEntity<?> addHome(@RequestBody HomeInfo info) {
+
+        System.out.println("ECHO: " + info.getId() + ", " + info.getName());
+
+        HashMap<String, Object> reqMap = homeServiceI.doHomeService(info);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=UTF-8");
+
+        return new ResponseEntity<>(reqMap,headers, HttpStatus.OK);
+    }
+
+    @ResponseBody
     @GetMapping()
-    public ResponseEntity<?> homeReq(@RequestBody HomeInfo info) {
+    public ResponseEntity<?> getHomeInfo(@RequestBody HomeInfo info) {
 
         System.out.println("ECHO: " + info.getId() + ", " + info.getName());
 
